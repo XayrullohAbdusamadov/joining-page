@@ -1,7 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
-const supabaseAnonKey = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '').trim();
+const cleanEnvVar = (val: string) => {
+  let s = (val || '').trim();
+  if (s.startsWith('"') && s.endsWith('"')) {
+    s = s.substring(1, s.length - 1);
+  }
+  if (s.startsWith("'") && s.endsWith("'")) {
+    s = s.substring(1, s.length - 1);
+  }
+  return s.trim();
+}
+
+const supabaseUrl = cleanEnvVar(process.env.NEXT_PUBLIC_SUPABASE_URL || '');
+const supabaseAnonKey = cleanEnvVar(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '');
 
 // Safe helper to check if a URL is structurally valid HTTP/HTTPS
 const isValidUrl = (url: string) => {

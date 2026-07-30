@@ -2,8 +2,19 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+const cleanEnvVar = (val: string) => {
+  let s = (val || '').trim()
+  if (s.startsWith('"') && s.endsWith('"')) {
+    s = s.substring(1, s.length - 1)
+  }
+  if (s.startsWith("'") && s.endsWith("'")) {
+    s = s.substring(1, s.length - 1)
+  }
+  return s.trim()
+}
+
+const supabaseUrl = cleanEnvVar(process.env.NEXT_PUBLIC_SUPABASE_URL || '')
+const supabaseAnonKey = cleanEnvVar(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '')
 
 const isSupabaseConfigured =
   supabaseUrl &&
