@@ -3,7 +3,7 @@
 import React, { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
-import { LogIn, Shield, Layout, Smartphone, AlertTriangle, Mail, Key, CheckCircle } from 'lucide-react'
+import { LogIn, Shield, Layout, Smartphone, AlertTriangle, Mail, Key, CheckCircle, User as UserIcon } from 'lucide-react'
 
 function LandingContent() {
   const searchParams = useSearchParams()
@@ -12,6 +12,7 @@ function LandingContent() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
   const [isSignUp, setIsSignUp] = useState(false)
 
   useEffect(() => {
@@ -31,6 +32,7 @@ function LandingContent() {
       const res = await signIn('credentials', {
         email,
         password,
+        username,
         isSignUp: isSignUp ? 'true' : 'false',
         redirect: false,
       })
@@ -39,14 +41,7 @@ function LandingContent() {
         setErrorMessage(res.error)
         setIsLoading(false)
       } else {
-        if (isSignUp) {
-          setSuccessMessage("Muvaffaqiyatli ro'yxatdan o'tdingiz! Endi kirishingiz mumkin.")
-          setIsSignUp(false)
-          setPassword('')
-        } else {
-          window.location.href = '/dashboard'
-        }
-        setIsLoading(false)
+        window.location.href = '/dashboard'
       }
     } catch (err: any) {
       setErrorMessage(err.message || 'Xatolik yuz berdi.')
@@ -76,7 +71,7 @@ function LandingContent() {
         </h1>
         <p className="mt-6 text-lg md:text-xl text-muted max-w-2xl leading-relaxed">
           Ma'lumotlaringizni boshqarish va nazorat qilish uchun mo'ljallangan minimalist ishchi hudud. 
-          Prisma SQLite va Supabase Auth tizimi orqali to'liq xavfsizlik va mustaqillik kafolatlanadi.
+          Supabase Auth va Real-time Chat tizimi orqali to'liq xavfsizlik va mustaqillik kafolatlanadi.
         </p>
 
         {/* Error Alert */}
@@ -101,6 +96,28 @@ function LandingContent() {
             {isSignUp ? "Ro'yxatdan o'tish" : "Tizimga kirish"}
           </h2>
           <form onSubmit={handleAuthSubmit} className="space-y-4">
+            {isSignUp && (
+              <div>
+                <label htmlFor="username" className="block text-xs uppercase tracking-wider text-muted font-bold mb-2">
+                  Ismingiz (Username)
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <UserIcon className="h-4 w-4 text-muted-dark" />
+                  </span>
+                  <input
+                    type="text"
+                    id="username"
+                    required
+                    placeholder="Masalan: Hayrulloh"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full bg-background border border-border pl-10 pr-4 py-3 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary rounded-none"
+                  />
+                </div>
+              </div>
+            )}
+
             <div>
               <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted font-bold mb-2">
                 Elektron pochta
@@ -197,9 +214,9 @@ function LandingContent() {
             <div className="w-10 h-10 bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
               <Shield className="w-5 h-5 text-primary" />
             </div>
-            <h3 className="text-lg font-bold text-foreground">Mustaqil SQLite bazasi</h3>
+            <h3 className="text-lg font-bold text-foreground">Real-time Muloqot</h3>
             <p className="mt-2 text-sm text-muted leading-relaxed">
-              Loyiha bazasi o'z serveringizdagi SQLite faylida saqlanadi. Tashqi bulut xizmatlariga mutlaqo bog'liq emassiz.
+              Xabarlar real-time tarzda Supabase orqali uzatiladi. Har qanday qurilmadan lahzali muloqot qilishingiz mumkin.
             </p>
           </div>
 

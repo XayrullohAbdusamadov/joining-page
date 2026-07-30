@@ -1,7 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { prisma } from '@/lib/prisma'
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
@@ -18,21 +16,14 @@ const supabase = isSupabaseConfigured
   : null
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
   providers: [
-    // Google login vaqtincha disabled qilindi
-    /*
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    */
     CredentialsProvider({
       name: 'Supabase Email',
       credentials: {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
         isSignUp: { label: 'Is SignUp', type: 'text' },
+        username: { label: 'Username', type: 'text' },
       },
       async authorize(credentials) {
         const email = credentials?.email?.trim()
@@ -44,30 +35,11 @@ export const authOptions: NextAuthOptions = {
 
         // 1. Admin bypass tekshiruvi (admin@gmail.com va Hayrulloh2012)
         if (email === 'admin@gmail.com' && password === 'Hayrulloh2012') {
-          let dbUser = await prisma.user.findUnique({
-            where: { email },
-          })
-
-          if (!dbUser) {
-            dbUser = await prisma.user.create({
-              data: {
-                email,
-                name: 'Admin',
-                role: 'admin',
-              } as any,
-            })
-          } else if ((dbUser as any).role !== 'admin') {
-            dbUser = await prisma.user.update({
-              where: { email },
-              data: { role: 'admin' } as any,
-            })
-          }
-
           return {
-            id: dbUser.id,
-            email: dbUser.email,
-            name: dbUser.name,
-            role: (dbUser as any).role,
+            id: 'admin-id',
+            email: 'admin@gmail.com',
+            name: ',Admin.', // Chat-app uchun Super Admin nomi formatda
+            role: 'admin',
           }
         }
 
@@ -82,9 +54,15 @@ export const authOptions: NextAuthOptions = {
 
         if (isSignUp) {
           // 2. Ro'yxatdan o'tish (Register)
+          const username = (credentials as any)?.username || email.split('@')[0]
           const { data, error } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+              data: {
+                name: username,
+              },
+            },
           })
 
           if (error) {
@@ -95,26 +73,11 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Foydalanuvchi yaratilmadi.')
           }
 
-          // SQLite bazasida foydalanuvchini tekshiramiz/yaratamiz
-          let dbUser = await prisma.user.findUnique({
-            where: { email },
-          })
-
-          if (!dbUser) {
-            dbUser = await prisma.user.create({
-              data: {
-                email,
-                name: email.split('@')[0], // standart ism
-                role: 'user', // default role
-              } as any,
-            })
-          }
-
           return {
-            id: dbUser.id,
-            email: dbUser.email,
-            name: dbUser.name,
-            role: (dbUser as any).role,
+            id: data.user.id,
+            email: data.user.email || email,
+            name: username,
+            role: 'user',
           }
         } else {
           // 3. Tizimga kirish (Login)
@@ -131,26 +94,11 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Tizimga kirishda xatolik.')
           }
 
-          // SQLite bazasida foydalanuvchini tekshiramiz/yaratamiz
-          let dbUser = await prisma.user.findUnique({
-            where: { email },
-          })
-
-          if (!dbUser) {
-            dbUser = await prisma.user.create({
-              data: {
-                email,
-                name: email.split('@')[0],
-                role: 'user',
-              } as any,
-            })
-          }
-
           return {
-            id: dbUser.id,
-            email: dbUser.email,
-            name: dbUser.name,
-            role: (dbUser as any).role,
+            id: data.user.id,
+            email: data.user.email || email,
+            name: data.user.user_metadata?.name || (data.user.email || email).split('@')[0],
+            role: 'user',
           }
         }
       },
@@ -171,15 +119,6 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.sub = user.id
         token.role = (user as any).role || 'user'
-      } else if (token.sub) {
-        // Rol o'zgargan bo'lsa uni bazadan yangilab olamiz
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.sub },
-          select: { role: true } as any,
-        })
-        if (dbUser) {
-          token.role = (dbUser as any).role
-        }
       }
       return token
     },

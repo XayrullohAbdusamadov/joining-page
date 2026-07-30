@@ -1,25 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
   try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
-        createdAt: true,
+    const mockUsers = [
+      {
+        id: 'admin-id',
+        name: 'Admin',
+        email: 'admin@gmail.com',
+        image: null,
+        createdAt: new Date().toISOString(),
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+      {
+        id: 'mock-user-1',
+        name: 'Hayrulloh',
+        email: 'hayrulloh@gmail.com',
+        image: null,
+        createdAt: new Date().toISOString(),
+      }
+    ]
 
     return NextResponse.json({
       success: true,
-      count: users.length,
-      users,
+      count: mockUsers.length,
+      users: mockUsers,
     })
   } catch (error: any) {
     return NextResponse.json(
