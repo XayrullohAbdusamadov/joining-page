@@ -6,6 +6,7 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { Settings, User as UserIcon, Shield, Mail, Calendar, Key } from 'lucide-react'
 import { DashboardHeader } from '@/components/DashboardHeader'
+import { AdminUserTable } from '@/components/AdminUserTable'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,6 +26,15 @@ export default async function DashboardPage() {
     redirect('/')
   }
 
+  const isAdmin = (dbUser as any).role === 'admin'
+
+  // Agar admin bo'lsa, barcha foydalanuvchilarni yuklash
+  const allUsers = isAdmin
+    ? await prisma.user.findMany({
+        orderBy: { createdAt: 'desc' },
+      })
+    : []
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <DashboardHeader avatarUrl={dbUser.image} />
@@ -36,7 +46,9 @@ export default async function DashboardPage() {
           <h1 className="text-3xl font-extrabold text-foreground">
             Xush kelibsiz, <span className="text-primary">{dbUser.name || dbUser.email}</span>!
           </h1>
-          <p className="text-sm text-muted mt-1">Bu sizning shaxsiy va xavfsiz boshqaruv panelingiz (SQLite + Prisma).</p>
+          <p className="text-sm text-muted mt-1">
+            Bu sizning shaxsiy va xavfsiz boshqaruv panelingiz (SQLite + Prisma + Supabase Auth).
+          </p>
         </div>
 
         {/* Grid panel */}
@@ -65,8 +77,8 @@ export default async function DashboardPage() {
                   <h3 className="font-bold text-lg text-foreground truncate max-w-[180px]">
                     {dbUser.name || 'Ism kiritilmagan'}
                   </h3>
-                  <span className="text-xs text-muted font-medium bg-background px-2 py-0.5 border border-border mt-1 inline-block">
-                    Faol (Mahalliy)
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-background px-2 py-0.5 border border-border mt-1 inline-block text-primary">
+                    {(dbUser as any).role}
                   </span>
                 </div>
               </div>
@@ -96,7 +108,7 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          {/* 2. SQLite / Google OAuth xavfsizlik tafsilotlari */}
+          {/* 2. SQLite / Supabase Auth xavfsizlik tafsilotlari */}
           <div className="bg-card border border-border p-6 rounded-none md:col-span-2">
             <div className="flex items-center justify-between mb-6">
               <span className="text-xs uppercase tracking-wider text-muted font-bold">Xavfsizlik & Autentifikatsiya</span>
@@ -107,7 +119,7 @@ export default async function DashboardPage() {
               <div>
                 <h4 className="text-sm font-bold text-foreground">Autentifikatsiya provayderi</h4>
                 <p className="text-xs text-muted mt-1 leading-relaxed">
-                  Siz ushbu tizimga Google OAuth xizmati orqali xavfsiz tasdiqlash bilan kirdingiz. NextAuth.js yordamida o'rnatilgan sessiyangiz mahalliy SQLite ma'lumotlar bazasida (`dev.db`) saqlanadi.
+                  Siz ushbu tizimga Supabase Auth xizmati orqali xavfsiz email/parol tekshiruvi bilan kirdingiz. NextAuth.js yordamida o'rnatilgan seansingiz va foydalanuvchi ma'lumotlari mahalliy SQLite ma'lumotlar bazasida (`dev.db`) saqlanadi.
                 </p>
               </div>
 
@@ -119,17 +131,22 @@ export default async function DashboardPage() {
               </div>
 
               <div className="border-t border-border/60 pt-4">
-                <h4 className="text-sm font-bold text-foreground">Google hisob bog'liqligi</h4>
+                <h4 className="text-sm font-bold text-foreground">Tizimdagi rolingiz va huquqlaringiz</h4>
                 <div className="flex items-center gap-2 mt-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-primary"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse"></div>
                   <span className="text-xs text-foreground font-medium">
-                    Google hisobi: {dbUser.email} (tasdiqlangan)
+                    Rol: {(dbUser as any).role === 'admin' ? 'Tizim Admini (To\'liq boshqaruv)' : 'Foydalanuvchi (Cheklangan)'}
                   </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Admin Panel (Faqat adminlar ko'ra oladi) */}
+        {isAdmin && (
+          <AdminUserTable users={allUsers as any} currentUserId={dbUser.id} />
+        )}
       </main>
     </div>
   )
