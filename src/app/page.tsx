@@ -139,8 +139,15 @@ function LandingContent() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full text-center mt-24 pt-6 border-t border-border text-xs text-muted-dark">
-        &copy; {new Date().getFullYear()} TIZIM. Barcha huquqlar himoyalangan.
+      <footer className="w-full text-center mt-24 pt-6 border-t border-border text-xs text-muted-dark flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          &copy; {new Date().getFullYear()} TIZIM. Barcha huquqlar himoyalangan.
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <span>Yaratuvchi: <strong className="text-foreground">Hayrulloh Abdusamadov</strong></span>
+          <span className="text-border">|</span>
+          <span>Telegram kanal: <a href="https://t.me/HayrullohAdusamadov" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-bold">@HayrullohAdusamadov</a></span>
+        </div>
       </footer>
     </div>
   )

@@ -1,0 +1,305 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TIZIM API",
+    "description": "Next.js (Prisma + SQLite) shaxsiy platformasining API endpoint'lari hujjatlari. Ushbu hujjatni Apidog-ga import qilib, API'larni sinab ko'rishingiz mumkin.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Mahalliy (Local) Server"
+    }
+  ],
+  "paths": {
+    "/api/profile": {
+      "get": {
+        "summary": "Profil ma'lumotlarini olish",
+        "description": "Hozirgi tizimga kirgan foydalanuvchining shaxsiy ma'lumotlarini qaytaradi.",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "CookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Foydalanuvchi ma'lumotlari muvaffaqiyatli yuklandi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "cly234x2w00003b5x89klmno2"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Ali Valiyev"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "ali.valiyev@gmail.com"
+                        },
+                        "image": {
+                          "type": "string",
+                          "example": "https://lh3.googleusercontent.com/a/ACg8oc..."
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-07-30T09:00:00.000Z"
+                        },
+                        "provider": {
+                          "type": "string",
+                          "example": "google"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Avtorizatsiyadan o'tilmagan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Siz tizimga kirmagansiz. Cookie yoki Authorization header (Bearer) yuboring."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Foydalanuvchi topilmadi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Foydalanuvchi topilmadi."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Profil ismini yangilash",
+        "description": "Foydalanuvchining to'liq ismini (name) tahrirlaydi.",
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "CookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Yangi ism va familiya",
+                    "example": "Ali Valiyev Yangi"
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Profil muvaffaqiyatli yangilandi",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Profil muvaffaqiyatli yangilandi."
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "cly234x2w00003b5x89klmno2"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Ali Valiyev Yangi"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "ali.valiyev@gmail.com"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "https://lh3.googleusercontent.com/a/ACg8oc..."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Noto'g'ri so'rov (Xato ma'lumotlar)",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "example": "Ism maydoni boʻsh boʻlishi mumkin emas."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Avtorizatsiyadan o'tilmagan",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "example": "Siz tizimga kirmagansiz. Cookie yoki Authorization header (Bearer) yuboring."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "summary": "Barcha foydalanuvchilar ro'yxati",
+        "description": "Ma'lumotlar bazasida ro'yxatdan o'tgan barcha foydalanuvchilar ro'yxatini qaytaradi (Apidog testing uchun ochiq).",
+        "responses": {
+          "200": {
+            "description": "Foydalanuvchilar ro'yxati muvaffaqiyatli yuklandi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "cly234x2w00003b5x89klmno2"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Ali Valiyev"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "ali.valiyev@gmail.com"
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": "https://lh3.googleusercontent.com/a/ACg8oc..."
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-07-30T09:00:00.000Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Ichki server xatoligi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Foydalanuvchilarni olishda xatolik yuz berdi."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Apidog testlarida foydalanuvchining elektron pochtasi yoki ID raqamini Bearer Token sifatda yuboring. Masalan: `ali.valiyev@gmail.com` yoki `cly234x2w00003b5x89klmno2`."
+      },
+      "CookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "next-auth.session-token",
+        "description": "Brauzerdagi faol NextAuth sessiya cookie fayli."
+      }
+    }
+  }
+}
