@@ -1403,7 +1403,7 @@ export function ChatApp({ user }: ChatAppProps) {
                           </div>
                         )}
 
-                        {msg.text && <p className="message-text-content">{renderTextWithLinks(msg.text)}</p>}
+                        {msg.text && <div className="message-text-content">{renderTextWithLinks(msg.text)}</div>}
                       </div>
 
                       <div className="message-meta-row">
