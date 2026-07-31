@@ -949,7 +949,7 @@ export function ChatApp({ user }: ChatAppProps) {
         {/* Chap tomon: Logo va Nomi */}
         <div className="logo-container flex items-center gap-2">
           <HabarnomaLogo />
-          <h1 className="logo-text text-lg font-bold tracking-tight text-foreground">
+          <h1 className="logo-text text-lg font-bold tracking-tight text-foreground hidden sm:block">
             Habarnoma<span className="logo-accent text-primary">.</span>
           </h1>
         </div>
@@ -965,7 +965,7 @@ export function ChatApp({ user }: ChatAppProps) {
                   : 'text-muted hover:text-foreground'
               }`}
             >
-              💬 Chat
+              💬 <span className="hidden sm:inline">Chat</span>
             </button>
             <button
               onClick={() => setActiveTab('admin')}
@@ -975,7 +975,7 @@ export function ChatApp({ user }: ChatAppProps) {
                   : 'text-muted hover:text-foreground'
               }`}
             >
-              🛡️ Admin Panel
+              🛡️ <span className="hidden sm:inline">Admin Panel</span>
             </button>
           </div>
         )}
@@ -992,14 +992,14 @@ export function ChatApp({ user }: ChatAppProps) {
                   className="select-mode-actions flex items-center gap-2"
                 >
                   <button className="px-3 py-1.5 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-all rounded-lg cursor-pointer" onClick={handleSelectAllMessages}>
-                    ✓ Hammasini belgilash
+                    ✓ <span className="hidden sm:inline">Hammasini belgilash</span>
                   </button>
                   <button
                     className="px-3 py-1.5 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded-lg cursor-pointer"
                     onClick={handleDeleteSelectedMessages}
                     disabled={selectedMessageIds.size === 0}
                   >
-                    🗑️ O'chirish ({selectedMessageIds.size})
+                    🗑️ <span className="hidden sm:inline">O'chirish ({selectedMessageIds.size})</span>
                   </button>
                   <button className="px-3 py-1.5 text-xs font-bold text-muted bg-panel-sec/40 border border-border/80 hover:bg-panel-sec transition-all rounded-lg cursor-pointer" onClick={handleCancelSelection}>
                     Bekor qilish
@@ -1008,14 +1008,14 @@ export function ChatApp({ user }: ChatAppProps) {
               ) : (
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button className="px-3.5 py-1.5 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 transition-all rounded-lg cursor-pointer" onClick={handleClearChat} title="Butun chatni tozalash">
-                    🧹 Tozalash
+                    🧹 <span className="hidden sm:inline">Tozalash</span>
                   </button>
                   <button
                     className="px-3.5 py-1.5 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-all rounded-lg cursor-pointer"
                     onClick={() => setIsSelectMode(true)}
                     title="Tanlab o'chirish"
                   >
-                    ☑ Tanlab o'chirish
+                    ☑ <span className="hidden sm:inline">Tanlab o'chirish</span>
                   </button>
                 </div>
               )}
@@ -1025,8 +1025,8 @@ export function ChatApp({ user }: ChatAppProps) {
             <div className="header-actions flex items-center gap-2">
               <div className="user-profile flex items-center gap-2 bg-panel-sec/40 border border-border/80 px-3.5 py-1.5 rounded-xl">
                 <span className="user-avatar text-sm">{avatar}</span>
-                <span className="user-name text-xs font-bold text-foreground tracking-tight">{getDisplayName(username)}</span>
-                {isAdminUser(username, adminsList) && <span className="admin-badge text-[10px] bg-primary text-black px-1.5 py-0.5 rounded font-black ml-1.5">👑</span>}
+                <span className="user-name text-xs font-bold text-foreground tracking-tight hidden sm:block">{getDisplayName(username)}</span>
+                {isAdminUser(username, adminsList) && <span className="admin-badge text-[10px] bg-primary text-black px-1.5 py-0.5 rounded font-black ml-1.5 hidden sm:inline-block">👑</span>}
               </div>
               <button
                 className="w-9 h-9 flex items-center justify-center rounded-xl bg-panel-sec/40 border border-border/80 text-primary hover:bg-primary hover:text-black transition-all cursor-pointer"
