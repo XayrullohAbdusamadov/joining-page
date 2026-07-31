@@ -78,6 +78,30 @@ const CodeIcon = () => (
   </svg>
 )
 
+const CrownIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z" />
+    <path d="M3 20h18" strokeWidth="2.5" />
+  </svg>
+)
+
+const ShieldAlertIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <line x1="12" y1="8" x2="12" y2="12" strokeWidth="2.5" />
+    <line x1="12" y1="16" x2="12.01" y2="16" strokeWidth="3" />
+  </svg>
+)
+
+const UsersIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+)
+
 interface Message {
   id: string
   sender_name: string
@@ -903,63 +927,73 @@ export function ChatApp({ user }: ChatAppProps) {
 
   return (
     <div className="app-container">
-      <header className="app-header glass-effect">
-        <div className="logo-container">
+      <header className="app-header glass-effect flex items-center justify-between px-6 py-4 rounded-xl border border-border/60 mb-6">
+        {/* Chap tomon: Logo va Nomi */}
+        <div className="logo-container flex items-center gap-2">
           <HabarnomaLogo />
-          <h1 className="logo-text">
-            Habarnoma<span className="logo-accent">.</span>
+          <h1 className="logo-text text-lg font-bold tracking-tight text-foreground">
+            Habarnoma<span className="logo-accent text-primary">.</span>
           </h1>
-          {isAdminUser(username, adminsList) && (
-            <div style={{ display: 'flex', gap: '8px', marginLeft: '24px' }}>
-              <button
-                onClick={() => setActiveTab('chat')}
-                className="clear-chat-btn select-all-btn"
-                style={activeTab === 'chat' ? { background: 'var(--color-primary)', color: '#000' } : {}}
-              >
-                💬 Chat
-              </button>
-              <button
-                onClick={() => setActiveTab('admin')}
-                className="clear-chat-btn select-all-btn"
-                style={activeTab === 'admin' ? { background: 'var(--color-primary)', color: '#000' } : {}}
-              >
-                🛡️ Admin Panel
-              </button>
-            </div>
-          )}
         </div>
+
+        {/* O'rta qism: Tab o'tkazgich (faqat Adminlar uchun) */}
+        {isAdminUser(username, adminsList) && (
+          <div className="flex bg-panel-sec/40 p-1 rounded-xl border border-border/50 shadow-inner">
+            <button
+              onClick={() => setActiveTab('chat')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
+                activeTab === 'chat'
+                  ? 'bg-primary text-black shadow-md shadow-primary/10 font-bold'
+                  : 'text-muted hover:text-foreground'
+              }`}
+            >
+              💬 Chat
+            </button>
+            <button
+              onClick={() => setActiveTab('admin')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
+                activeTab === 'admin'
+                  ? 'bg-primary text-black shadow-md shadow-primary/10 font-bold'
+                  : 'text-muted hover:text-foreground'
+              }`}
+            >
+              🛡️ Admin Panel
+            </button>
+          </div>
+        )}
+
+        {/* O'ng tomon: Boshqaruv tugmalari va Profil */}
         <div
-          className="header-actions-group"
-          style={{ display: 'flex', alignItems: 'center', gap: '16px' }}
+          className="header-actions-group flex items-center gap-4"
         >
-          {isAdminUser(username, adminsList) && (
-            <>
+          {/* Chat amallari: Faqat admin va faqat Chat ochiq bo'lganda ko'rinadi */}
+          {isAdminUser(username, adminsList) && activeTab === 'chat' && (
+            <div className="flex items-center gap-2">
               {isSelectMode ? (
                 <div
-                  className="select-mode-actions"
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  className="select-mode-actions flex items-center gap-2"
                 >
-                  <button className="clear-chat-btn select-all-btn" onClick={handleSelectAllMessages}>
+                  <button className="px-3 py-1.5 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-all rounded-lg cursor-pointer" onClick={handleSelectAllMessages}>
                     ✓ Hammasini belgilash
                   </button>
                   <button
-                    className="clear-chat-btn delete-selected-btn"
+                    className="px-3 py-1.5 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded-lg cursor-pointer"
                     onClick={handleDeleteSelectedMessages}
                     disabled={selectedMessageIds.size === 0}
                   >
-                    🗑️ Tanlanganlarni o'chirish ({selectedMessageIds.size})
+                    🗑️ O'chirish ({selectedMessageIds.size})
                   </button>
-                  <button className="clear-chat-btn cancel-select-btn" onClick={handleCancelSelection}>
+                  <button className="px-3 py-1.5 text-xs font-bold text-muted bg-panel-sec/40 border border-border/80 hover:bg-panel-sec transition-all rounded-lg cursor-pointer" onClick={handleCancelSelection}>
                     Bekor qilish
                   </button>
                 </div>
               ) : (
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button className="clear-chat-btn" onClick={handleClearChat} title="Butun chatni tozalash">
+                  <button className="px-3.5 py-1.5 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 transition-all rounded-lg cursor-pointer" onClick={handleClearChat} title="Butun chatni tozalash">
                     🧹 Tozalash
                   </button>
                   <button
-                    className="clear-chat-btn select-delete-toggle-btn"
+                    className="px-3.5 py-1.5 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-all rounded-lg cursor-pointer"
                     onClick={() => setIsSelectMode(true)}
                     title="Tanlab o'chirish"
                   >
@@ -967,36 +1001,27 @@ export function ChatApp({ user }: ChatAppProps) {
                   </button>
                 </div>
               )}
-            </>
+            </div>
           )}
           {username && (
-            <div className="header-actions" style={{ display: 'flex', alignItems: 'center' }}>
-              <div className="user-profile">
-                <span className="user-avatar">{avatar}</span>
-                <span className="user-name">{getDisplayName(username)}</span>
-                {isAdminUser(username, adminsList) && <span className="admin-badge">👑</span>}
+            <div className="header-actions flex items-center gap-2">
+              <div className="user-profile flex items-center gap-2 bg-panel-sec/40 border border-border/80 px-3.5 py-1.5 rounded-xl">
+                <span className="user-avatar text-sm">{avatar}</span>
+                <span className="user-name text-xs font-bold text-foreground tracking-tight">{getDisplayName(username)}</span>
+                {isAdminUser(username, adminsList) && <span className="admin-badge text-[10px] bg-primary text-black px-1.5 py-0.5 rounded font-black ml-1.5">👑</span>}
               </div>
               <button
-                className="action-btn"
-                style={{
-                  opacity: 1,
-                  transform: 'none',
-                  color: 'var(--color-primary)',
-                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                  marginLeft: '12px',
-                  width: '36px',
-                  height: '36px',
-                }}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-panel-sec/40 border border-border/80 text-primary hover:bg-primary hover:text-black transition-all cursor-pointer"
                 onClick={handleInstallClick}
                 title="Yorliq sifatida o'rnatish"
               >
                 <svg
-                  width="18"
-                  height="18"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -1006,26 +1031,17 @@ export function ChatApp({ user }: ChatAppProps) {
                 </svg>
               </button>
               <button
-                className="action-btn"
-                style={{
-                  opacity: 1,
-                  transform: 'none',
-                  color: '#ef4444',
-                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                  marginLeft: '12px',
-                  width: '36px',
-                  height: '36px',
-                }}
+                className="w-9 h-9 flex items-center justify-center rounded-xl bg-panel-sec/40 border border-border/80 text-danger hover:bg-danger hover:text-white transition-all cursor-pointer"
                 onClick={() => setShowLogoutModal(true)}
                 title="Chiqish"
               >
                 <svg
-                  width="18"
-                  height="18"
+                  width="16"
+                  height="16"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -1041,32 +1057,41 @@ export function ChatApp({ user }: ChatAppProps) {
 
       <div className="chat-window glass-effect-subtle" style={{ display: 'flex', flexDirection: 'column' }}>
         {activeTab === 'admin' ? (
-          <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '20px', color: 'var(--color-primary)' }}>
-              🛡️ Admin Boshqaruv Paneli
-            </h2>
+          <div className="flex-1 p-6 overflow-y-auto space-y-6">
+            <div className="flex items-center justify-between border-b border-border/40 pb-4 mb-4">
+              <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground flex items-center gap-2">
+                <span className="text-primary text-xl">🛡️</span> Admin Boshqaruv Paneli
+              </h2>
+              <span className="text-xs font-semibold px-3 py-1 bg-primary/10 border border-primary/20 text-primary rounded-full">
+                Super Admin Rejimi
+              </span>
+            </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* 1. Admins List */}
-              <div className="glass-effect" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '16px' }}>
-                  👑 Adminlar Ro'yxati ({adminsList.length + 1})
-                </h3>
+              <div className="bg-card border border-border/80 p-6 rounded-2xl shadow-md shadow-black/5 hover:border-primary/20 transition-all duration-300">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                    <CrownIcon />
+                  </div>
+                  <h3 className="text-sm uppercase tracking-wider text-muted font-bold">
+                    Adminlar Ro'yxati ({adminsList.length + 1})
+                  </h3>
+                </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '200px', overflowY: 'auto', marginBottom: '16px' }}>
+                <div className="flex flex-col gap-2 max-h-[220px] overflow-y-auto pr-1 mb-4">
                   {/* Super Admin */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px' }}>
-                    <span>{getDisplayName(username)} (Siz)</span>
-                    <span style={{ fontSize: '0.75rem', background: 'var(--color-primary)', color: '#000', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>SUPER ADMIN</span>
+                  <div className="flex justify-between items-center px-4 py-3 bg-panel-sec/20 border border-border/40 rounded-xl">
+                    <span className="text-sm font-semibold">{getDisplayName(username)} (Siz)</span>
+                    <span className="text-[10px] bg-primary text-black px-2 py-0.5 rounded font-black tracking-wider uppercase">SUPER ADMIN</span>
                   </div>
                   
                   {adminsList.map(admin => (
-                    <div key={admin} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px' }}>
-                      <span>{admin}</span>
+                    <div key={admin} className="flex justify-between items-center px-4 py-3 bg-panel-sec/20 border border-border/40 rounded-xl hover:bg-panel-sec/45 hover:border-border/60 transition-all">
+                      <span className="text-sm font-semibold">{admin}</span>
                       <button 
                         onClick={() => handleRemoveAdmin(admin)}
-                        className="clear-chat-btn" 
-                        style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                        className="text-xs font-bold text-danger hover:bg-danger/10 border border-danger/20 hover:border-danger/30 px-3 py-1 rounded-lg transition-all cursor-pointer"
                       >
                         O'chirish
                       </button>
@@ -1074,37 +1099,42 @@ export function ChatApp({ user }: ChatAppProps) {
                   ))}
                 </div>
                 
-                <form onSubmit={handleAddAdmin} style={{ display: 'flex', gap: '8px' }}>
+                <form onSubmit={handleAddAdmin} className="flex gap-2">
                   <input 
                     type="text" 
                     placeholder="Yangi admin ismi..." 
-                    className="chat-input" 
-                    style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                    className="flex-1 bg-background/50 border border-border px-4 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
                     required
                   />
-                  <button type="submit" className="send-button" style={{ height: '38px', padding: '0 16px', fontSize: '0.85rem' }}>
+                  <button type="submit" className="px-4 py-2 text-xs font-bold text-black bg-primary hover:bg-primary-hover active:scale-95 transition-all rounded-xl cursor-pointer shadow-md shadow-primary/10">
                     Qo'shish
                   </button>
                 </form>
               </div>
 
               {/* 2. Blocked Users List */}
-              <div className="glass-effect" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '16px' }}>
-                  🚫 Bloklangan Foydalanuvchilar ({blockedUsers.length})
-                </h3>
+              <div className="bg-card border border-border/80 p-6 rounded-2xl shadow-md shadow-black/5 hover:border-primary/20 transition-all duration-300">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-8 h-8 rounded-lg bg-danger/10 border border-danger/20 flex items-center justify-center text-danger">
+                    <ShieldAlertIcon />
+                  </div>
+                  <h3 className="text-sm uppercase tracking-wider text-muted font-bold">
+                    Bloklangan Foydalanuvchilar ({blockedUsers.length})
+                  </h3>
+                </div>
                 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '200px', overflowY: 'auto', marginBottom: '16px' }}>
+                <div className="flex flex-col gap-2 max-h-[220px] overflow-y-auto pr-1 mb-4">
                   {blockedUsers.length === 0 ? (
-                    <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>Hech kim bloklanmagan.</span>
+                    <div className="py-4 text-center">
+                      <span className="text-xs text-muted font-medium">Hech kim bloklanmagan.</span>
+                    </div>
                   ) : (
                     blockedUsers.map(user => (
-                      <div key={user} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px' }}>
-                        <span>{user}</span>
+                      <div key={user} className="flex justify-between items-center px-4 py-3 bg-panel-sec/20 border border-border/40 rounded-xl hover:bg-panel-sec/45 hover:border-border/60 transition-all">
+                        <span className="text-sm font-semibold">{user}</span>
                         <button 
                           onClick={() => handleUnblockUser(user)}
-                          className="clear-chat-btn select-all-btn" 
-                          style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                          className="text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 px-3 py-1.5 rounded-lg transition-all cursor-pointer"
                         >
                           Blokdan yechish
                         </button>
@@ -1113,15 +1143,14 @@ export function ChatApp({ user }: ChatAppProps) {
                   )}
                 </div>
                 
-                <form onSubmit={handleBlockNewUser} style={{ display: 'flex', gap: '8px' }}>
+                <form onSubmit={handleBlockNewUser} className="flex gap-2">
                   <input 
                     type="text" 
                     placeholder="Bloklanadigan ism..." 
-                    className="chat-input" 
-                    style={{ padding: '8px 16px', fontSize: '0.85rem' }}
+                    className="flex-1 bg-background/50 border border-border px-4 py-2 text-sm text-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl transition-all"
                     required
                   />
-                  <button type="submit" className="send-button" style={{ height: '38px', padding: '0 16px', fontSize: '0.85rem', backgroundColor: '#ef4444' }}>
+                  <button type="submit" className="px-4 py-2 text-xs font-bold text-white bg-danger hover:bg-danger/80 active:scale-95 transition-all rounded-xl cursor-pointer shadow-md shadow-danger/10">
                     Bloklash
                   </button>
                 </form>
@@ -1129,20 +1158,25 @@ export function ChatApp({ user }: ChatAppProps) {
             </div>
 
             {/* 3. Active Chat Senders */}
-            <div className="glass-effect" style={{ padding: '20px', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '16px' }}>
-                👥 Chatda faol foydalanuvchilar (Xabar yozganlar)
-              </h3>
+            <div className="bg-card border border-border/80 p-6 rounded-2xl shadow-md shadow-black/5 hover:border-primary/20 transition-all duration-300">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
+                  <UsersIcon />
+                </div>
+                <h3 className="text-sm uppercase tracking-wider text-muted font-bold">
+                  Chatda faol foydalanuvchilar (Xabar yozganlar)
+                </h3>
+              </div>
               
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', textAlign: 'left' }}>
+              <div className="overflow-x-auto rounded-xl border border-border/60">
+                <table className="w-full text-left border-collapse text-sm">
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-muted)' }}>
-                      <th style={{ padding: '12px 8px' }}>Avatar</th>
-                      <th style={{ padding: '12px 8px' }}>Foydalanuvchi ismi</th>
-                      <th style={{ padding: '12px 8px' }}>Roli</th>
-                      <th style={{ padding: '12px 8px' }}>Holat</th>
-                      <th style={{ padding: '12px 8px', textAlign: 'right' }}>Amallar</th>
+                    <tr className="bg-panel-sec/20 border-b border-border/60 text-muted">
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Avatar</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Foydalanuvchi ismi</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Roli</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Holat</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-right">Amallar</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1153,41 +1187,41 @@ export function ChatApp({ user }: ChatAppProps) {
                       const avatarEmoji = messages.find(m => m.sender_name === sender)?.avatar || '👤'
                       
                       return (
-                        <tr key={sender} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                          <td style={{ padding: '12px 8px', fontSize: '1.25rem' }}>{avatarEmoji}</td>
-                          <td style={{ padding: '12px 8px', fontWeight: 'bold' }}>{getDisplayName(sender)} {isSelf && ' (Siz)'}</td>
-                          <td style={{ padding: '12px 8px' }}>
+                        <tr key={sender} className="border-b border-border/30 hover:bg-panel-sec/10 transition-colors">
+                          <td className="px-4 py-3.5 text-lg align-middle">{avatarEmoji}</td>
+                          <td className="px-4 py-3.5 font-semibold text-foreground align-middle">
+                            {getDisplayName(sender)} {isSelf && <span className="text-xs text-muted font-normal">(Siz)</span>}
+                          </td>
+                          <td className="px-4 py-3.5 align-middle">
                             {isSuperAdmin(sender) ? (
-                              <span style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>Super Admin</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full">Super Admin</span>
                             ) : isSenderAdmin ? (
-                              <span style={{ color: '#f59e0b', fontWeight: 'bold' }}>Admin</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-full">Admin</span>
                             ) : (
-                              <span>User</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-muted/10 border border-border/40 text-muted rounded-full">User</span>
                             )}
                           </td>
-                          <td style={{ padding: '12px 8px' }}>
+                          <td className="px-4 py-3.5 align-middle">
                             {isSenderBlocked ? (
-                              <span style={{ color: '#ef4444', fontWeight: 'bold' }}>🚫 Bloklangan</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-danger/10 border border-danger/20 text-danger rounded-full">🚫 Bloklangan</span>
                             ) : (
-                              <span style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>✓ Faol</span>
+                              <span className="px-2 py-0.5 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full">✓ Faol</span>
                             )}
                           </td>
-                          <td style={{ padding: '12px 8px', textAlign: 'right' }}>
+                          <td className="px-4 py-3.5 align-middle text-right">
                             {!isSelf && !isSuperAdmin(sender) && (
-                              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                              <div className="flex gap-2 justify-end">
                                 {isSenderAdmin ? (
                                   <button 
                                     onClick={() => handleRemoveAdmin(sender)}
-                                    className="clear-chat-btn" 
-                                    style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                                    className="px-2.5 py-1 text-xs font-bold text-muted border border-border hover:bg-panel-sec rounded-lg transition-all cursor-pointer"
                                   >
                                     User qilish
                                   </button>
                                 ) : (
                                   <button 
                                     onClick={() => handleAddAdminWithName(sender)}
-                                    className="clear-chat-btn select-all-btn" 
-                                    style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                                    className="px-2.5 py-1 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 rounded-lg transition-all cursor-pointer"
                                   >
                                     Admin qilish
                                   </button>
@@ -1196,16 +1230,14 @@ export function ChatApp({ user }: ChatAppProps) {
                                 {isSenderBlocked ? (
                                   <button 
                                     onClick={() => handleUnblockUser(sender)}
-                                    className="clear-chat-btn select-all-btn" 
-                                    style={{ padding: '6px 12px', fontSize: '0.8rem' }}
+                                    className="px-2.5 py-1 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 rounded-lg transition-all cursor-pointer"
                                   >
                                     Blokdan yechish
                                   </button>
                                 ) : (
                                   <button 
                                     onClick={() => handleBlockUser(sender)}
-                                    className="clear-chat-btn" 
-                                    style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#ef4444', background: 'rgba(239,68,68,0.1)' }}
+                                    className="px-2.5 py-1 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 rounded-lg transition-all cursor-pointer"
                                   >
                                     Bloklash
                                   </button>
