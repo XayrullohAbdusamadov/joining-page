@@ -273,7 +273,6 @@ export function ChatApp({ user }: ChatAppProps) {
   const [isSending, setIsSending] = useState(false)
   const [showLogoutModal, setShowLogoutModal] = useState(false)
   const [showCodeModal, setShowCodeModal] = useState(false)
-  const [showInstallAlert, setShowInstallAlert] = useState(false)
   const [codeSnippet, setCodeSnippet] = useState('')
   const [codeLanguage, setCodeLanguage] = useState('')
 
@@ -287,7 +286,6 @@ export function ChatApp({ user }: ChatAppProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [viewerImage, setViewerImage] = useState<string | null>(null)
   const [typingUsers, setTypingUsers] = useState<string[]>([])
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [isSelectMode, setIsSelectMode] = useState(false)
   const [selectedMessageIds, setSelectedMessageIds] = useState<Set<string>>(new Set())
   const [activeTab, setActiveTab] = useState<'chat' | 'admin'>('chat')
@@ -311,14 +309,6 @@ export function ChatApp({ user }: ChatAppProps) {
 
   useEffect(() => {
     setIsMounted(true)
-
-    // PWA install prompt handler
-    const handleBeforeInstallPrompt = (e: any) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
-    }
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
 
     // 2-second timer to allow views to settle
     const timer = setTimeout(() => {
@@ -801,17 +791,6 @@ export function ChatApp({ user }: ChatAppProps) {
     setIsSending(false)
   }
 
-  const handleInstallClick = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt()
-      deferredPrompt.userChoice.then(() => {
-        setDeferredPrompt(null)
-      })
-    } else {
-      setShowInstallAlert(true)
-    }
-  }
-
   const formatTime = (dateStr: string) => {
     try {
       const date = new Date(dateStr)
@@ -1028,26 +1007,6 @@ export function ChatApp({ user }: ChatAppProps) {
                 <span className="user-name text-xs font-bold text-foreground tracking-tight hidden sm:block">{getDisplayName(username)}</span>
                 {isAdminUser(username, adminsList) && <span className="admin-badge text-[10px] bg-primary text-black px-1.5 py-0.5 rounded font-black ml-1.5 hidden sm:inline-block">👑</span>}
               </div>
-              <button
-                className="w-9 h-9 flex items-center justify-center rounded-xl bg-panel-sec/40 border border-border/80 text-primary hover:bg-primary hover:text-black transition-all cursor-pointer"
-                onClick={handleInstallClick}
-                title="Yorliq sifatida o'rnatish"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2-2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-              </button>
               <button
                 className="w-9 h-9 flex items-center justify-center rounded-xl bg-panel-sec/40 border border-border/80 text-danger hover:bg-danger hover:text-white transition-all cursor-pointer"
                 onClick={() => setShowLogoutModal(true)}
@@ -1860,51 +1819,6 @@ export function ChatApp({ user }: ChatAppProps) {
         </div>
       )}
 
-      {showInstallAlert && (
-        <div className="modal-overlay">
-          <div
-            className="modal-content glass-effect"
-            style={{
-              borderColor: 'var(--color-primary)',
-              maxWidth: '400px',
-              textAlign: 'center',
-            }}
-          >
-            <div className="modal-logo" style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ margin: '0 auto' }}
-              >
-                <path d="M21 15v4a2 2 0 0 1-2-2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-            </div>
-            <h2 className="modal-title" style={{ color: 'var(--color-primary)', marginBottom: '1rem' }}>
-              O'rnatish imkoni yo'q
-            </h2>
-            <p className="modal-subtitle" style={{ marginBottom: '2rem' }}>
-              Avtomatik o'rnatish imkoni topilmadi. Iltimos, brauzer menyusidan{' '}
-              <strong>&apos;O&apos;rnatish&apos; (Install)</strong> yoki{' '}
-              <strong>&apos;Bosh ekranga qo&apos;shish&apos; (Add to Home screen)</strong> ni tanlang.
-            </p>
-            <button
-              className="modal-button"
-              style={{ width: '100%', backgroundColor: 'var(--color-primary)' }}
-              onClick={() => setShowInstallAlert(false)}
-            >
-              Tushundim
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
