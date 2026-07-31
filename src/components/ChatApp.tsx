@@ -5,6 +5,15 @@ import { signOut } from 'next-auth/react'
 import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { atomOneDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
+import {
+  IconMessageCircle, IconShield, IconTrash, IconClearAll, IconCrown, IconBan, 
+  IconPhoto, IconPaperclip, IconUser, IconUserCode, IconCat, IconDog, IconRobot, 
+  IconGhost, IconBug, IconAlien, IconWand, IconRocket, IconUserStar, IconMoodCrazyHappy, 
+  IconMoodAngry, IconPig, IconEgg, IconFeather, IconEye, IconFish, IconStar, 
+  IconFlame, IconPaw, IconHeart, IconBrandFirefox, IconSnowman, IconIceCream, 
+  IconUserEdit, IconUserScan, IconBone, IconChevronDown, IconUsers, IconCode, 
+  IconCheck, IconCopy, IconEdit, IconX, IconArrowBackUp
+} from '@tabler/icons-react';
 
 // 1. Premium SVG Logo for Habarnoma
 const HabarnomaLogo = () => (
@@ -16,97 +25,7 @@ const HabarnomaLogo = () => (
   </svg>
 )
 
-const ReplyIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M3 10h10a8 8 0 0 1 8 8v2M3 10l6 6M3 10l6-6"/>
-  </svg>
-)
 
-const PaperclipIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-  </svg>
-)
-
-const CloseIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-)
-
-const EditIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 20h9" />
-    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-  </svg>
-)
-
-const CopyIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-  </svg>
-)
-
-const CheckIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
-)
-
-const TrashIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="3 6 5 6 21 6" />
-    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-    <line x1="10" y1="11" x2="10" y2="17" />
-    <line x1="14" y1="11" x2="14" y2="17" />
-  </svg>
-)
-
-const BanIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-  </svg>
-)
-
-const CodeIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="16 18 22 12 16 6"></polyline>
-    <polyline points="8 6 2 12 8 18"></polyline>
-  </svg>
-)
-
-const CrownIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z" />
-    <path d="M3 20h18" strokeWidth="2.5" />
-  </svg>
-)
-
-const ShieldAlertIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    <line x1="12" y1="8" x2="12" y2="12" strokeWidth="2.5" />
-    <line x1="12" y1="16" x2="12.01" y2="16" strokeWidth="3" />
-  </svg>
-)
-
-const UsersIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-)
-
-const ChevronDownIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="6 9 12 15 18 9"></polyline>
-  </svg>
-)
 
 interface Message {
   id: string
@@ -131,6 +50,58 @@ const avatarOptions = [
   '🦅', '🦉', '🦋', '🐝', '🐠', '🐢', '🦈', '🦌'
 ]
 
+const avatarIconMap: Record<string, React.ReactNode> = {
+  '👨‍💻': <IconUserCode size={24} />,
+  '👩‍💻': <IconUserEdit size={24} />,
+  '🦊': <IconBrandFirefox size={24} />,
+  '🐼': <IconPaw size={24} />,
+  '🤖': <IconRobot size={24} />,
+  '👻': <IconGhost size={24} />,
+  '🐱': <IconCat size={24} />,
+  '🦖': <IconBone size={24} />,
+  '🦁': <IconCat size={24} />,
+  '🐯': <IconCat size={24} />,
+  '🐨': <IconPaw size={24} />,
+  '🐙': <IconBug size={24} />,
+  '🦄': <IconStar size={24} />,
+  '🐉': <IconFlame size={24} />,
+  '👽': <IconAlien size={24} />,
+  '👾': <IconGhost size={24} />,
+  '🥷': <IconUserScan size={24} />,
+  '🧙‍♂️': <IconWand size={24} />,
+  '🧙‍♀️': <IconWand size={24} />,
+  '🧑‍🚀': <IconRocket size={24} />,
+  '🤠': <IconUserStar size={24} />,
+  '🤡': <IconMoodCrazyHappy size={24} />,
+  '👹': <IconMoodAngry size={24} />,
+  '👺': <IconMoodAngry size={24} />,
+  '🐻': <IconPaw size={24} />,
+  '🐺': <IconDog size={24} />,
+  '🐸': <IconBug size={24} />,
+  '🐹': <IconPaw size={24} />,
+  '🐷': <IconPig size={24} />,
+  '🐒': <IconPaw size={24} />,
+  '🐔': <IconEgg size={24} />,
+  '🐧': <IconSnowman size={24} />,
+  '🦅': <IconFeather size={24} />,
+  '🦉': <IconEye size={24} />,
+  '🦋': <IconHeart size={24} />,
+  '🐝': <IconBug size={24} />,
+  '🐠': <IconFish size={24} />,
+  '🐢': <IconShield size={24} />,
+  '🦈': <IconFish size={24} />,
+  '🦌': <IconBone size={24} />
+};
+
+const RenderAvatar = ({ avatar, size = 24 }: { avatar?: string; size?: number }) => {
+  if (!avatar || avatar === '👤') return <IconUser size={size} />;
+  const mappedIcon = avatarIconMap[avatar];
+  if (mappedIcon) {
+    return React.cloneElement(mappedIcon as React.ReactElement<any>, { size });
+  }
+  return <span style={{ fontSize: `${size}px`, lineHeight: 1, display: 'inline-block' }}>{avatar}</span>;
+};
+
 const CodeBlock = ({ code, language }: { code: string; language: string }) => {
   const [copied, setCopied] = useState(false)
   const handleCopy = () => {
@@ -143,7 +114,7 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
       <div className="code-block-header">
         <span className="code-language">{language || 'text'}</span>
         <button className="code-copy-btn" onClick={handleCopy}>
-          {copied ? <CheckIcon /> : <CopyIcon />} {copied ? 'Nusxalandi' : 'Nusxalash'}
+          {copied ? <IconCheck size={16} /> : <IconCopy size={16} />} {copied ? 'Nusxalandi' : 'Nusxalash'}
         </button>
       </div>
       <SyntaxHighlighter
@@ -215,11 +186,11 @@ const fileToBase64 = (file: File): Promise<string> => {
   })
 }
 
-const getReplyToTextValue = (m: Message) => {
+const getReplyToTextValue = (m: Message): React.ReactNode => {
   if (m.text) return m.text
-  if (m.file_type?.startsWith('image/')) return '🖼️ Rasm'
-  if (m.file_name) return `📎 ${m.file_name}`
-  if (m.file_url) return '📎 Fayl'
+  if (m.file_type?.startsWith('image/')) return <><IconPhoto size={16} className="inline mr-1" /> Rasm</>
+  if (m.file_name) return <><IconPaperclip size={16} className="inline mr-1" /> {m.file_name}</>
+  if (m.file_url) return <><IconPaperclip size={16} className="inline mr-1" /> Fayl</>
   return null
 }
 
@@ -896,10 +867,10 @@ export function ChatApp({ user }: ChatAppProps) {
                   <button
                     key={opt}
                     type="button"
-                    className={`avatar-option ${tempAvatar === opt ? 'selected' : ''}`}
+                    className={`avatar-option flex items-center justify-center ${tempAvatar === opt ? 'selected' : ''}`}
                     onClick={() => setTempAvatar(opt)}
                   >
-                    {opt}
+                    <RenderAvatar avatar={opt} size={28} />
                   </button>
                 ))}
               </div>
@@ -954,7 +925,7 @@ export function ChatApp({ user }: ChatAppProps) {
                   : 'text-muted hover:text-foreground'
               }`}
             >
-              💬 <span className="hidden sm:inline">Chat</span>
+              <IconMessageCircle size={20} className="sm:mr-2" /> <span className="hidden sm:inline">Chat</span>
             </button>
             <button
               onClick={() => setActiveTab('admin')}
@@ -964,7 +935,7 @@ export function ChatApp({ user }: ChatAppProps) {
                   : 'text-muted hover:text-foreground'
               }`}
             >
-              🛡️ <span className="hidden sm:inline">Admin Panel</span>
+              <IconShield size={20} className="sm:mr-2" /> <span className="hidden sm:inline">Admin Panel</span>
             </button>
           </div>
         )}
@@ -988,7 +959,7 @@ export function ChatApp({ user }: ChatAppProps) {
                     onClick={handleDeleteSelectedMessages}
                     disabled={selectedMessageIds.size === 0}
                   >
-                    🗑️ <span className="hidden sm:inline">O'chirish ({selectedMessageIds.size})</span>
+                    <IconTrash size={16} className="mr-1.5 hidden sm:inline" /> <span className="hidden sm:inline">O'chirish ({selectedMessageIds.size})</span>
                   </button>
                   <button className="px-3 py-1.5 text-xs font-bold text-muted bg-panel-sec/40 border border-border/80 hover:bg-panel-sec transition-all rounded-lg cursor-pointer" onClick={handleCancelSelection}>
                     Bekor qilish
@@ -997,7 +968,7 @@ export function ChatApp({ user }: ChatAppProps) {
               ) : (
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button className="px-3.5 py-1.5 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 transition-all rounded-lg cursor-pointer" onClick={handleClearChat} title="Butun chatni tozalash">
-                    🧹 <span className="hidden sm:inline">Tozalash</span>
+                    <IconClearAll size={16} className="mr-1.5 hidden sm:inline" /> <span className="hidden sm:inline">Tozalash</span>
                   </button>
                   <button
                     className="px-3.5 py-1.5 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-all rounded-lg cursor-pointer"
@@ -1013,9 +984,9 @@ export function ChatApp({ user }: ChatAppProps) {
           {username && (
             <div className="header-actions flex items-center gap-2">
               <div className="user-profile flex items-center gap-2 bg-panel-sec/40 border border-border/80 px-3.5 py-1.5 rounded-xl">
-                <span className="user-avatar text-sm">{avatar}</span>
+                <span className="user-avatar text-sm"><RenderAvatar avatar={avatar} size={20} /></span>
                 <span className="user-name text-xs font-bold text-foreground tracking-tight hidden sm:block">{getDisplayName(username)}</span>
-                {isAdminUser(username, adminsList) && <span className="admin-badge text-[10px] bg-primary text-black px-1.5 py-0.5 rounded font-black ml-1.5 hidden sm:inline-block">👑</span>}
+                {isAdminUser(username, adminsList) && <span className="admin-badge text-[10px] bg-primary text-black px-1.5 py-0.5 rounded font-black ml-1.5 hidden sm:inline-block"><IconCrown size={14} /></span>}
               </div>
               <button
                 className="w-9 h-9 flex items-center justify-center rounded-xl bg-panel-sec/40 border border-border/80 text-danger hover:bg-danger hover:text-white transition-all cursor-pointer"
@@ -1047,7 +1018,7 @@ export function ChatApp({ user }: ChatAppProps) {
           <div className="flex-1 p-6 overflow-y-auto space-y-6">
             <div className="flex items-center justify-between border-b border-border/40 pb-4 mb-4">
               <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground flex items-center gap-2">
-                <span className="text-primary text-xl">🛡️</span> Admin Boshqaruv Paneli
+                <span className="text-primary mr-2"><IconShield size={24} /></span> Admin Boshqaruv Paneli
               </h2>
               <span className="text-xs font-semibold px-3 py-1 bg-primary/10 border border-primary/20 text-primary rounded-full">
                 Super Admin Rejimi
@@ -1059,7 +1030,7 @@ export function ChatApp({ user }: ChatAppProps) {
               <div className="bg-card border border-border/80 p-6 rounded-2xl shadow-md shadow-black/5 hover:border-primary/20 transition-all duration-300">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                    <CrownIcon />
+                    <IconCrown size={18} />
                   </div>
                   <h3 className="text-sm uppercase tracking-wider text-muted font-bold">
                     Adminlar Ro'yxati ({adminsList.length + 1})
@@ -1103,7 +1074,7 @@ export function ChatApp({ user }: ChatAppProps) {
               <div className="bg-card border border-border/80 p-6 rounded-2xl shadow-md shadow-black/5 hover:border-primary/20 transition-all duration-300">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-8 h-8 rounded-lg bg-danger/10 border border-danger/20 flex items-center justify-center text-danger">
-                    <ShieldAlertIcon />
+                    <IconShield size={18} />
                   </div>
                   <h3 className="text-sm uppercase tracking-wider text-muted font-bold">
                     Bloklangan Foydalanuvchilar ({blockedUsers.length})
@@ -1148,7 +1119,7 @@ export function ChatApp({ user }: ChatAppProps) {
             <div className="bg-card border border-border/80 p-6 rounded-2xl shadow-md shadow-black/5 hover:border-primary/20 transition-all duration-300">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                  <UsersIcon />
+                  <IconUsers size={18} />
                 </div>
                 <h3 className="text-sm uppercase tracking-wider text-muted font-bold">
                   Chatda faol foydalanuvchilar (Xabar yozganlar)
@@ -1171,11 +1142,11 @@ export function ChatApp({ user }: ChatAppProps) {
                       const isSenderAdmin = isAdminUser(sender, adminsList)
                       const isSenderBlocked = blockedUsers.includes(sender.toLowerCase())
                       const isSelf = sender.toLowerCase() === username.toLowerCase()
-                      const avatarEmoji = messages.find(m => m.sender_name === sender)?.avatar || '👤'
+                      const avatarEmoji = messages.find(m => m.sender_name === sender)?.avatar || ''
                       
                       return (
                         <tr key={sender} className="border-b border-border/30 hover:bg-panel-sec/10 transition-colors">
-                          <td className="px-4 py-3.5 text-lg align-middle whitespace-nowrap">{avatarEmoji}</td>
+                          <td className="px-4 py-3.5 text-lg align-middle whitespace-nowrap"><RenderAvatar avatar={avatarEmoji} size={24} /></td>
                           <td className="px-4 py-3.5 font-semibold text-foreground align-middle whitespace-nowrap">
                             {getDisplayName(sender)} {isSelf && <span className="text-xs text-muted font-normal whitespace-nowrap">(Siz)</span>}
                           </td>
@@ -1190,7 +1161,7 @@ export function ChatApp({ user }: ChatAppProps) {
                           </td>
                           <td className="px-4 py-3.5 align-middle whitespace-nowrap">
                             {isSenderBlocked ? (
-                              <span className="px-2.5 py-1 text-xs font-bold bg-danger/10 border border-danger/20 text-danger rounded-full whitespace-nowrap">🚫 Bloklangan</span>
+                              <span className="px-2.5 py-1 text-xs font-bold bg-danger/10 border border-danger/20 text-danger rounded-full whitespace-nowrap flex items-center"><IconBan size={14} className="mr-1" /> Bloklangan</span>
                             ) : (
                               <span className="px-2.5 py-1 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full whitespace-nowrap">✓ Faol</span>
                             )}
@@ -1295,9 +1266,9 @@ export function ChatApp({ user }: ChatAppProps) {
                 >
                   {!isOutgoing && (
                     <div className="message-sender">
-                      <span className="msg-avatar">{msg.avatar || '👤'}</span>
+                      <span className="msg-avatar flex items-center justify-center"><RenderAvatar avatar={msg.avatar} size={20} /></span>
                       <span>{getDisplayName(msg.sender_name)}</span>
-                      {isRegAdmin && <span className="admin-badge">👑 ADMIN</span>}
+                      {isRegAdmin && <span className="admin-badge flex items-center"><IconCrown size={14} className="mr-1" /> ADMIN</span>}
                     </div>
                   )}
 
@@ -1337,7 +1308,7 @@ export function ChatApp({ user }: ChatAppProps) {
                             background: 'rgba(255,255,255,0.05)',
                           }}
                         >
-                          {selectedMessageIds.has(msg.id) && <CheckIcon />}
+                          {selectedMessageIds.has(msg.id) && <IconCheck size={16} />}
                         </div>
                       </div>
                     )}
@@ -1416,7 +1387,7 @@ export function ChatApp({ user }: ChatAppProps) {
                                   }
                                 }}
                               >
-                                📎 {msg.file_name}
+                                <IconPaperclip size={16} className="inline mr-1" /> {msg.file_name}
                               </a>
                             )}
                           </div>
@@ -1442,7 +1413,7 @@ export function ChatApp({ user }: ChatAppProps) {
                                 }}
                                 title="Nusxalash"
                               >
-                                {copiedMessageId === msg.id ? <CheckIcon /> : <CopyIcon />}
+                                {copiedMessageId === msg.id ? <IconCheck size={16} /> : <IconCopy size={16} />}
                               </button>
                             )}
                             <button
@@ -1453,7 +1424,7 @@ export function ChatApp({ user }: ChatAppProps) {
                               }}
                               title="Javob berish"
                             >
-                              <ReplyIcon />
+                              <IconArrowBackUp size={16} />
                             </button>
                             {isOutgoing && (
                               <button
@@ -1464,7 +1435,7 @@ export function ChatApp({ user }: ChatAppProps) {
                                 }}
                                 title="Tahrirlash"
                               >
-                                <EditIcon />
+                                <IconEdit size={16} />
                               </button>
                             )}
                             {(isOutgoing || isAdminUser(username, adminsList)) && (
@@ -1476,7 +1447,7 @@ export function ChatApp({ user }: ChatAppProps) {
                                 }}
                                 title="O'chirish"
                               >
-                                <TrashIcon />
+                                <IconTrash size={16} />
                               </button>
                             )}
                             {isAdminUser(username, adminsList) && !isOutgoing && (
@@ -1488,7 +1459,7 @@ export function ChatApp({ user }: ChatAppProps) {
                                 }}
                                 title="Bloklash"
                               >
-                                <BanIcon />
+                                <IconBan size={16} />
                               </button>
                             )}
                           </div>
@@ -1515,7 +1486,7 @@ export function ChatApp({ user }: ChatAppProps) {
             {unreadCount > 0 && (
               <span className="unread-badge">{unreadCount}</span>
             )}
-            <ChevronDownIcon />
+            <IconChevronDown size={20} />
           </button>
         )}
 
@@ -1531,7 +1502,7 @@ export function ChatApp({ user }: ChatAppProps) {
           {editingMessage && (
             <div className="replying-context editing-context">
               <div className="replying-info">
-                <EditIcon />
+                <IconEdit size={16} />
                 <span className="replying-name">Xabarni tahrirlash</span>
               </div>
               <button
@@ -1542,7 +1513,7 @@ export function ChatApp({ user }: ChatAppProps) {
                 }}
                 type="button"
               >
-                <CloseIcon />
+                <IconX size={16} />
               </button>
             </div>
           )}
@@ -1550,7 +1521,7 @@ export function ChatApp({ user }: ChatAppProps) {
           {replyingTo && !editingMessage && (
             <div className="replying-context">
               <div className="replying-info">
-                <ReplyIcon />
+                <IconArrowBackUp size={16} />
                 <div className="replying-content-wrapper">
                   <span className="replying-name">
                     Javob qaytarilmoqda: {replyingTo.sender_name}
@@ -1568,14 +1539,14 @@ export function ChatApp({ user }: ChatAppProps) {
                 </div>
               </div>
               <button className="close-reply-btn" onClick={() => setReplyingTo(null)} type="button">
-                <CloseIcon />
+                <IconX size={16} />
               </button>
             </div>
           )}
 
           {selectedFile && !editingMessage && (
             <div className="file-preview-context">
-              <PaperclipIcon />
+              <IconPaperclip size={20} />
               <span className="file-preview-name">{selectedFile.name}</span>
               <button
                 className="close-reply-btn"
@@ -1585,7 +1556,7 @@ export function ChatApp({ user }: ChatAppProps) {
                 }}
                 type="button"
               >
-                <CloseIcon />
+                <IconX size={16} />
               </button>
             </div>
           )}
@@ -1600,7 +1571,7 @@ export function ChatApp({ user }: ChatAppProps) {
                   disabled={isSending}
                   title="Fayl yuklash"
                 >
-                  <PaperclipIcon />
+                  <IconPaperclip size={20} />
                 </button>
                 <button
                   type="button"
@@ -1609,7 +1580,7 @@ export function ChatApp({ user }: ChatAppProps) {
                   disabled={isSending}
                   title="Kod formatida yozish"
                 >
-                  <CodeIcon />
+                  <IconCode size={20} />
                 </button>
                 <input
                   type="file"
@@ -1688,7 +1659,7 @@ export function ChatApp({ user }: ChatAppProps) {
       {viewerImage && (
         <div className="image-viewer-overlay" onClick={() => setViewerImage(null)}>
           <button className="viewer-close-btn" onClick={() => setViewerImage(null)}>
-            <CloseIcon />
+            <IconX size={16} />
           </button>
 
           <a
