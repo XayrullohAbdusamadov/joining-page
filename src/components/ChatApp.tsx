@@ -1190,11 +1190,11 @@ export function ChatApp({ user }: ChatAppProps) {
                 <table className="w-full text-left border-collapse text-sm">
                   <thead>
                     <tr className="bg-panel-sec/20 border-b border-border/60 text-muted">
-                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Avatar</th>
-                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Foydalanuvchi ismi</th>
-                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Roli</th>
-                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider">Holat</th>
-                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-right">Amallar</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider whitespace-nowrap">Avatar</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider whitespace-nowrap">Foydalanuvchi ismi</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider whitespace-nowrap">Roli</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider whitespace-nowrap">Holat</th>
+                      <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-right whitespace-nowrap">Amallar</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1206,40 +1206,40 @@ export function ChatApp({ user }: ChatAppProps) {
                       
                       return (
                         <tr key={sender} className="border-b border-border/30 hover:bg-panel-sec/10 transition-colors">
-                          <td className="px-4 py-3.5 text-lg align-middle">{avatarEmoji}</td>
-                          <td className="px-4 py-3.5 font-semibold text-foreground align-middle">
-                            {getDisplayName(sender)} {isSelf && <span className="text-xs text-muted font-normal">(Siz)</span>}
+                          <td className="px-4 py-3.5 text-lg align-middle whitespace-nowrap">{avatarEmoji}</td>
+                          <td className="px-4 py-3.5 font-semibold text-foreground align-middle whitespace-nowrap">
+                            {getDisplayName(sender)} {isSelf && <span className="text-xs text-muted font-normal whitespace-nowrap">(Siz)</span>}
                           </td>
-                          <td className="px-4 py-3.5 align-middle">
+                          <td className="px-4 py-3.5 align-middle whitespace-nowrap">
                             {isSuperAdmin(sender) ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full">Super Admin</span>
+                              <span className="px-2.5 py-1 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full whitespace-nowrap">Super Admin</span>
                             ) : isSenderAdmin ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-full">Admin</span>
+                              <span className="px-2.5 py-1 text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-full whitespace-nowrap">Admin</span>
                             ) : (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-muted/10 border border-border/40 text-muted rounded-full">User</span>
+                              <span className="px-2.5 py-1 text-xs font-bold bg-muted/10 border border-border/40 text-muted rounded-full whitespace-nowrap">User</span>
                             )}
                           </td>
-                          <td className="px-4 py-3.5 align-middle">
+                          <td className="px-4 py-3.5 align-middle whitespace-nowrap">
                             {isSenderBlocked ? (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-danger/10 border border-danger/20 text-danger rounded-full">🚫 Bloklangan</span>
+                              <span className="px-2.5 py-1 text-xs font-bold bg-danger/10 border border-danger/20 text-danger rounded-full whitespace-nowrap">🚫 Bloklangan</span>
                             ) : (
-                              <span className="px-2 py-0.5 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full">✓ Faol</span>
+                              <span className="px-2.5 py-1 text-xs font-bold bg-primary/10 border border-primary/20 text-primary rounded-full whitespace-nowrap">✓ Faol</span>
                             )}
                           </td>
-                          <td className="px-4 py-3.5 align-middle text-right">
+                          <td className="px-4 py-3.5 align-middle text-right whitespace-nowrap">
                             {!isSelf && !isSuperAdmin(sender) && (
-                              <div className="flex gap-2 justify-end">
+                              <div className="flex gap-2 justify-end items-center flex-nowrap whitespace-nowrap">
                                 {isSenderAdmin ? (
                                   <button 
                                     onClick={() => handleRemoveAdmin(sender)}
-                                    className="px-2.5 py-1 text-xs font-bold text-muted border border-border hover:bg-panel-sec rounded-lg transition-all cursor-pointer"
+                                    className="px-2.5 py-1 text-xs font-bold text-muted border border-border hover:bg-panel-sec rounded-lg transition-all cursor-pointer whitespace-nowrap"
                                   >
                                     User qilish
                                   </button>
                                 ) : (
                                   <button 
                                     onClick={() => handleAddAdminWithName(sender)}
-                                    className="px-2.5 py-1 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 rounded-lg transition-all cursor-pointer"
+                                    className="px-2.5 py-1 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 rounded-lg transition-all cursor-pointer whitespace-nowrap"
                                   >
                                     Admin qilish
                                   </button>
@@ -1248,14 +1248,14 @@ export function ChatApp({ user }: ChatAppProps) {
                                 {isSenderBlocked ? (
                                   <button 
                                     onClick={() => handleUnblockUser(sender)}
-                                    className="px-2.5 py-1 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 rounded-lg transition-all cursor-pointer"
+                                    className="px-2.5 py-1 text-xs font-bold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/20 rounded-lg transition-all cursor-pointer whitespace-nowrap"
                                   >
                                     Blokdan yechish
                                   </button>
                                 ) : (
                                   <button 
                                     onClick={() => handleBlockUser(sender)}
-                                    className="px-2.5 py-1 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 rounded-lg transition-all cursor-pointer"
+                                    className="px-2.5 py-1 text-xs font-bold text-danger bg-danger/10 border border-danger/20 hover:bg-danger/20 rounded-lg transition-all cursor-pointer whitespace-nowrap"
                                   >
                                     Bloklash
                                   </button>
