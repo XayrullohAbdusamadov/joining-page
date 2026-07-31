@@ -102,6 +102,12 @@ const UsersIcon = () => (
   </svg>
 )
 
+const ChevronDownIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+)
+
 interface Message {
   id: string
   sender_name: string
@@ -285,11 +291,23 @@ export function ChatApp({ user }: ChatAppProps) {
   const [isSelectMode, setIsSelectMode] = useState(false)
   const [selectedMessageIds, setSelectedMessageIds] = useState<Set<string>>(new Set())
   const [activeTab, setActiveTab] = useState<'chat' | 'admin'>('chat')
+  const [showScrollBottom, setShowScrollBottom] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const messagesContainerRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const typingChannelRef = useRef<any>(null)
+
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current
+    if (scrollHeight - scrollTop - clientHeight > 100) {
+      setShowScrollBottom(true)
+    } else {
+      setShowScrollBottom(false)
+    }
+  }
 
   useEffect(() => {
     setIsMounted(true)
@@ -1268,7 +1286,7 @@ export function ChatApp({ user }: ChatAppProps) {
           </div>
         )}
 
-        <div className="messages-container">
+        <div className="messages-container" ref={messagesContainerRef} onScroll={handleScroll}>
           {isFetchingMessages ? (
             <div className="messages-empty-state">
               <div
@@ -1515,6 +1533,16 @@ export function ChatApp({ user }: ChatAppProps) {
           )}
           <div ref={messagesEndRef} />
         </div>
+
+        {showScrollBottom && (
+          <button 
+            className="scroll-bottom-btn" 
+            onClick={() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            title="Pastga tushish"
+          >
+            <ChevronDownIcon />
+          </button>
+        )}
 
         {/* Input Area with Contexts */}
         <div className="input-area-container">
