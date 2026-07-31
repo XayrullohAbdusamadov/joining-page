@@ -290,6 +290,8 @@ export function ChatApp({ user }: ChatAppProps) {
   const [selectedMessageIds, setSelectedMessageIds] = useState<Set<string>>(new Set())
   const [activeTab, setActiveTab] = useState<'chat' | 'admin'>('chat')
   const [showScrollBottom, setShowScrollBottom] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
+  const showScrollBottomRef = useRef(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
@@ -302,8 +304,11 @@ export function ChatApp({ user }: ChatAppProps) {
     const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current
     if (scrollHeight - scrollTop - clientHeight > 100) {
       setShowScrollBottom(true)
+      showScrollBottomRef.current = true
     } else {
       setShowScrollBottom(false)
+      showScrollBottomRef.current = false
+      setUnreadCount(0)
     }
   }
 
@@ -467,6 +472,11 @@ export function ChatApp({ user }: ChatAppProps) {
             const newMsg = payload.new as Message
             setMessages((prev) => {
               if (prev.some((m) => m.id === newMsg.id)) return prev
+              
+              if (showScrollBottomRef.current && newMsg.sender_name !== username) {
+                setUnreadCount(c => c + 1)
+              }
+              
               return [...prev, newMsg]
             })
           } else if (payload.eventType === 'UPDATE') {
@@ -1496,9 +1506,15 @@ export function ChatApp({ user }: ChatAppProps) {
         {showScrollBottom && (
           <button 
             className="scroll-bottom-btn" 
-            onClick={() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => {
+              messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+              setUnreadCount(0)
+            }}
             title="Pastga tushish"
           >
+            {unreadCount > 0 && (
+              <span className="unread-badge">{unreadCount}</span>
+            )}
             <ChevronDownIcon />
           </button>
         )}
